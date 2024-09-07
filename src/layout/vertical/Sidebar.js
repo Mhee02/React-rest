@@ -27,6 +27,9 @@ import Collapse from '@mui/material/Collapse';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next'; 
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PublicIcon from '@mui/icons-material/Public';
 
 const drawerWidth = 240;
 
@@ -111,20 +114,27 @@ export default function Sidebar() {
     const { i18n } = useTranslation();  
     const navigate = useNavigate(); 
     const { lang, id } = useParams();  
-    console.log("lang", lang);  
-  
     const location = useLocation(); 
     const { pathname } = location;
     const { t } = useTranslation(); 
-    
-
-
-    
-
-
     const [contactOpen, setContactOpen] = React.useState(false);  
+    const [auth, setAuth] = React.useState(true);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleChange = (event) => {
+      setAuth(event.target.checked);
+    };
+
+    const handleMenu = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
 
     const changeLanguage = (selectedLang) => {
+      
         i18n.changeLanguage(selectedLang);
         const pathParts = pathname.split('/');
         if (pathParts[1]) {
@@ -184,8 +194,36 @@ export default function Sidebar() {
             </ListItemButton>
           </List>
           <Box sx={{ flexGrow: 1 }} />
-          <Button color="inherit" onClick={() => changeLanguage('en')}>EN</Button>
-          <Button color="inherit" onClick={() => changeLanguage('th')}>TH</Button>
+          <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <PublicIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                >
+                <MenuItem color="inherit" onClick={() => changeLanguage('en')}>EN</MenuItem>
+                <MenuItem color="inherit" onClick={() => changeLanguage('th')}>TH</MenuItem>
+              </Menu>
+            </div>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

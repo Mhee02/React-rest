@@ -15,6 +15,7 @@ import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 
 
+
 export default function CollectionTable() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true); 
@@ -22,8 +23,12 @@ export default function CollectionTable() {
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState(null);  
     const [page, setPage] = useState(0);
+    
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const { t } = useTranslation(); 
+
+    
+
     useEffect(() => {
         UserGet()
       }, []);
@@ -147,7 +152,6 @@ export default function CollectionTable() {
       <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            {/* <TableCell align="center">Avatar</TableCell> */}
             <TableCell align="right">{t('firstname')}</TableCell>
             <TableCell align="right">{t('lastname')}</TableCell>
             <TableCell align="right">{t('age')}</TableCell>
